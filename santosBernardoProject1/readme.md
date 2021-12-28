@@ -9,3 +9,13 @@ The theme of the project is the Brazilian Soccer National Team, which has its st
 3. Best Goals -> Contains a list of the best goals that the Brazilian National Team scored in World Cups. Such videos are embbeded from YouTube for better display and ease of usage.
 4. Best Players -> Contains a grid of cards about the best players that have ever played for the Brazilian National Team in World Cups. 
 
+Here is a demo of the website:
+
+#### Home & History Page
+
+https://user-images.githubusercontent.com/57163215/147573135-77f257e0-f324-42e5-bd36-6066458abd28.mp4
+
+#### All Other Pages
+
+https://user-images.githubusercontent.com/57163215/147573452-33fdd462-5815-4183-9318-71122bce835b.mp4
+
