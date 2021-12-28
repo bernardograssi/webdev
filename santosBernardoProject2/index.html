@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link href='https://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js">
+    </script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js">
+    </script>
+
+    <title>Home Page</title>
+    <style>
+        body {
+            background-color: white;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        #portfolio {
+            width: 100%;
+            min-height: 100vh;
+            background: #ffffff;
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 6px;
+        }
+
+        .project {
+            position: relative;
+            background: black;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .project img {
+            position: absolute;
+            opacity: 0.9;
+            border-radius: 10px;
+            object-fit: cover;
+            max-width: 100%;
+        }
+
+        .project p {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            padding: 1em 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 3;
+        }
+
+        .project .grid__title {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            white-space: nowrap;
+            bottom: 0;
+            font-weight: 100;
+            font-size: 0.8em;
+            z-index: 3;
+            text-transform: uppercase;
+            color: #474545;
+            letter-spacing: 2px;
+        }
+
+        .project:hover .grid__overlay {
+            transform: translateY(0%);
+        }
+
+        .grid__overlay {
+            background: #045aaa;
+            height: 100%;
+            grid-column: 1/-1;
+            grid-row: 1/-1;
+            position: relative;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            transform: translateY(101%);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .grid__overlay button {
+            background: none;
+            outline: none;
+            font-weight: 100;
+            letter-spacing: 2px;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            text-transform: uppercase;
+            padding: 10px;
+        }
+
+        .grid__overlay button:hover {
+            transition: all 0.3s ease-in-out;
+            background: #ffffff;
+            color: #D1A39E;
+            transform: scale(1.05);
+        }
+
+        .overlay {
+            position: fixed;
+            background: rgba(71, 69, 69, 0.7);
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: none;
+            z-index: 3;
+        }
+
+        .overlay.open {
+            display: grid;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .overlay__inner {
+            background: #ffffff;
+            width: 700px;
+            padding: 20px;
+            position: relative;
+            opacity: 1;
+        }
+
+        .close {
+            position: absolute;
+            top: 3px;
+            right: 10px;
+            background: none;
+            outline: 0;
+            color: #474545;
+            border: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .close:hover {
+            color: #045aaa;
+        }
+
+        .project__image {
+            margin-left: -50%;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body onload="randomize()">
+    <div class="topnav" id="myTopnav">
+        <a href="index.html" class="active">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="references.html">References</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fas fa-bars"></i>
+        </a>
+    </div>
+
+    <section style="padding:30px;">
+        <span style="text-decoration: underline;">Sort by:</span><br>
+        <label class="container">Alphabetical by file name
+            <input type="checkbox" oninput="checkboxProcedure(this)" name="box" id="filename">
+            <span class="checkmark"></span>
+        </label>
+        <label class="container">Alphabetical by source
+            <input type="checkbox" oninput="checkboxProcedure(this)" name="box" id="source">
+            <span class="checkmark"></span>
+        </label>
+        <label class="container">Randomly
+            <input type="checkbox" oninput="checkboxProcedure(this)" name="box" id="random" checked disabled>
+            <span class="checkmark"></span>
+        </label>
+    </section>
+
+
+    <section id="portfolio">
+        <div class="project" draggable="true">
+            <img id="0" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-0">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="project" draggable="true">
+            <img id="1" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-1">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="project" draggable="true">
+            <img id="2" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-2">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="project" draggable="true">
+            <img id="3" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-3">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="project" draggable="true">
+            <img id="4" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-4">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="project" draggable="true">
+            <img id="5" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-5">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="project" draggable="true">
+            <img id="6" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-6">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="project" draggable="true">
+            <img id="7" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-7">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="project" draggable="true">
+            <img id="8" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-8">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="project" draggable="true">
+            <img id="9" class="project__image" src="" />
+            <div class="grid__overlay"><br><br>
+                <p id="paragraph-9">
+                    <b></b>
+                </p>
+            </div>
+        </div>
+
+        <div class="overlay">
+            <div class="overlay__inner">
+                <button class="close">close X</button>
+                <img>
+            </div>
+        </div>
+    </section>
+
+</body>
+<footer>
+    <div class="foot">
+        <ul id="foot-list">
+            <li><a href="references.html">References Page</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="contact.html">Contact Page</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="about.html">About Page</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="index.html">Home Page</a></li>
+        </ul>
+    </div>
+</footer>
+<script>
+    function ImageObject(src, p, h3, caption, source) {
+        this.src = src;
+        this.p = p;
+        this.h3 = h3;
+        this.caption = caption;
+        this.source = source;
+    }
+
+    var arrayOfImages = new Array(10);
+    arrayOfImages[0] = new ImageObject("milkyway.jpg", "Milky Way", "Astronomy", "A picture of the Milky Way.", "NASA");
+    arrayOfImages[1] = new ImageObject("hercules.jpg", "Hercules", "Greek Mythology", "A statue of Greek hero, Hercules.", "Pinterest");
+    arrayOfImages[2] = new ImageObject("greek-2.jpg", "Zeus in Athens", "Greek Mythology", "A vector art of Greek God, Zeus.", "Dreamstime")
+    arrayOfImages[3] = new ImageObject("greek-3.jpg", "Parthenon in Athens", "Greek Philosophy", "The Parthenon in Athens.", "The Conversation")
+    arrayOfImages[4] = new ImageObject("marcus.jpg", "Marcus Aurelius", "Stoicism", "Statue of Roman Emperor, Marcus Aurelius.", "Britannica")
+    arrayOfImages[5] = new ImageObject("apollo.jpg", "Apollo 11 Trip to the Moon", "History", "Picture of Neil Armstrong in the Moon.", "Wikipedia")
+    arrayOfImages[6] = new ImageObject("school.jpg", "School of Athens", "Art", "The School of Athens, painting by Renaissance mastermind Rafael.", "Aleteia")
+    arrayOfImages[7] = new ImageObject("myth.jpg", "Myth of Sisyphus", "Existentialism", "Sisyphus carrying up the rock in his infinite punishment.", "Titian")
+    arrayOfImages[8] = new ImageObject("pele.jpeg", "Pelé and Jairzinho in 1970", "Soccer", "Pelé celebrating a goal in 1970's World Cup with Jairzinho.", "Global Times")
+    arrayOfImages[9] = new ImageObject("adam.jpg", "Creation of Adam", "Art", "A detail of The Creation of Adam, painting by Michelangelo.", "Wikipedia")
+
+    function randomize() {
+        let list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        list = list.sort(() => Math.random() - 0.5)
+
+        for (var k = 0; k < arrayOfImages.length; k++) {
+            document.getElementById(String(k)).src = arrayOfImages[list[k]].src;
+            document.getElementById("paragraph-" + String(k)).innerHTML = arrayOfImages[list[k]].caption +
+                "<br><br>Source: " + arrayOfImages[list[k]].source +
+                "<br><br>(" + arrayOfImages[list[k]].src + ")";
+        }
+    }
+
+    function sortBySource() {
+        let newList = arrayOfImages.sort(function (a, b) {
+            var keyA = a.source;
+            var keyB = b.source;
+
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
+            return 0;
+        });
+
+        for (var i = 0; i < newList.length; i++) {
+            document.getElementById(String(i)).src = newList[i].src;
+            document.getElementById("paragraph-" + String(i)).innerHTML = newList[i].caption +
+                "<br><br>Source: " + newList[i].source +
+                "<br><br>(" + newList[i].src + ")";
+        }
+    }
+
+    function sortByFilename() {
+        let newList = arrayOfImages.sort(function (a, b) {
+            var keyA = a.src;
+            var keyB = b.src;
+
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
+            return 0;
+        });
+
+        for (var i = 0; i < newList.length; i++) {
+            document.getElementById(String(i)).src = newList[i].src;
+            document.getElementById("paragraph-" + String(i)).innerHTML = newList[i].caption +
+                "<br><br>Source: " + newList[i].source +
+                "<br><br>(" + newList[i].src + ")";
+        }
+    }
+
+    function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+
+    $('input[type="checkbox"]').on('change', function () {
+        $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+    });
+
+    function checkboxProcedure(element) {
+        if (element.id == "random" && element.checked) {
+            randomize();
+            element.disabled = true;
+            document.getElementById("source").disabled = false;
+            document.getElementById("filename").disabled = false;
+        } else if (element.id == "source" && element.checked) {
+            sortBySource();
+            element.disabled = true;
+            document.getElementById("random").disabled = false;
+            document.getElementById("filename").disabled = false;
+        } else {
+            sortByFilename();
+            element.disabled = true;
+            document.getElementById("source").disabled = false;
+            document.getElementById("random").disabled = false;
+        }
+    }
+
+    document.addEventListener("dragstart", function (event) {
+        origin = event.target;
+        console.log("dragstart");
+    });
+
+    document.addEventListener("dragend", function (event) {
+        console.log("dragend")
+    });
+
+    document.addEventListener("dragover", function (event) {
+        event.preventDefault();
+    });
+
+    document.addEventListener("drop", function (event) {
+        event.preventDefault();
+        if (event.target.className == "project__image") {
+            targetElement = event.target.parentNode;
+            if (targetElement.className == "project") {
+
+                let targetID = targetElement.firstElementChild.id;
+                let targetSrc = targetElement.firstElementChild.src;
+                let targetHTML = document.getElementById("paragraph-" + targetID).innerHTML;
+
+                let originID = origin.firstElementChild.id;
+                let originSrc = origin.firstElementChild.src;
+                let originHTML =  document.getElementById("paragraph-" + originID).innerHTML;
+
+                document.getElementById(targetID).src = originSrc;
+                document.getElementById("paragraph-" + targetID).innerHTML = originHTML;
+                document.getElementById(originID).src = targetSrc;
+                document.getElementById("paragraph-" + originID).innerHTML = targetHTML;
+            }
+        }
+    });
+
+</script>
+
+</html>

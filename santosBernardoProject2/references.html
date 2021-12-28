@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link href='https://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="style.css">
+    <title>References Page</title>
+    <style>
+        .foot{
+            margin-top: 385px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topnav" id="myTopnav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="references.html" class="active">References</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fas fa-bars"></i>
+        </a>
+    </div>
+
+    <div class="references-content">
+        <h1>References Page</h1>
+        <p><a href="https://codepen.io/3psy0n/pen/LYpajmX">→ About Cards ←</a></p>
+        <p><a href="https://codepen.io/codersdesign/pen/OJJJePm">→ Contact Form ←</a></p>
+        <p><a href="https://codepen.io/juliepark/pen/qKQzJL">→ Home Gallery ←</a></p>
+    </div>
+    
+</body>
+<footer>
+    <div class="foot">
+        <ul id="foot-list">
+            <li><a href="references.html">References Page</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="contact.html">Contact Page</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="about.html">About Page</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="index.html">Home Page</a></li>
+        </ul>
+    </div>
+</footer>
+<script>
+    function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+</script>
+
+</html>
