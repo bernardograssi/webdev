@@ -1,0 +1,439 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        <%= profile %> Profile Page
+    </title>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!--Font-Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!--External CSS Stylesheets-->
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/profile.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <img src="./images/p3-logo-transparent.png" width="70" length="70">
+            <li class="logo">P#3 Social Media</li>
+            <div class="dropdown">
+                <li class="items">
+                    <span class="icon-navbar">
+                        <a href="/home"><i class="fas fa-home"></i>
+                            Home</a>
+                    </span>
+                </li>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <li class="items">
+                    <span class="icon-navbar">
+                        <a href="" id="account-a">
+                            <i class="fas fa-user-circle"></i>
+                            Account</a>
+                    </span>
+                </li>
+                <div class="dropdown-content">
+                    <a href="/profile"><i class="far fa-id-card"></i>Profile</a>
+                    <a href="/friends"><i class="fas fa-users"></i>Friends</a>
+                    <a href="/delete"><i class="fas fa-trash-alt"></i>Delete</a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                </div>
+            </div>
+            <li class="btn"><a href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </nav>
+
+    <!-- Main -->
+    <main id="main" class="flexbox-col-start-center">
+
+        <!-- Profile Page -->
+        <div class="view-width">
+
+            <!-- Profile Header -->
+            <section class="profile-header">
+                <div class="profile-header-inner flexbox">
+                    <div class="phi-info-wrapper flexbox">
+                        <div class="phi-info-left flexbox">
+                            <!-- Profile Picture -->
+                            <div class="phi-profile-picture-wrapper">
+                                <div class="phi-profile-picture-inner flexbox">
+                                    <img class="phi-profile-picture" id="profile-img-id" src="" alt="">
+                                </div>
+                                <img class="phi-profile-picture-blur" src="" alt="">
+                            </div>
+                            <!-- Profile Username -->
+                            <div class="phi-profile-username-wrapper flexbox-col-left">
+                                <h3 id="phi-user" class="phi-profile-username flexbox">
+                                    <%= profile %>
+                                </h3>
+                                <p id="curr-user" style="display:none;">
+                                    <%= user %>
+                                </p>
+                                <p id="user-bio" class="phi-profile-tagline"></p>
+                            </div>
+                        </div>
+                        <div class="phi-info-right flexbox-right">
+                            <div>
+                                <button type="button" class="btn-primary-gray button btn-primary flexbox"
+                                    id="follow-unfollow" onclick="javascript:followOrUnfollow(this)">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                    <div class="btn-secondary">
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Profile Header Image -->
+                    <div class="profile-header-overlay"></div>
+                    <img class="profile-header-image" id="header-img" src="" alt="">
+                </div>
+            </section>
+
+            <!-- Profile Posts -->
+            <section id="profile-page-id" class="profile-page">
+                <h3>Profile Posts</h3>
+                <!-- Each Post -->
+                <h3 id="empty-warning">
+                    <%= profile %> has not posted anything yet :(
+                </h3>
+            </section>
+
+        </div>
+
+    </main>
+</body>
+<script>
+    var username = document.getElementById("phi-user").innerHTML.trim();
+    var currUser = document.getElementById("curr-user").innerHTML.trim();
+    var followBtn = undefined;
+
+    $(document).ready(function () {
+
+        // Assign button click function to navigation bar.
+        $('.btn').click(function () {
+            $('.items').toggleClass("show");
+            $('ul li').toggleClass("hide");
+        });
+
+        // Read JSON data and build page.
+        $.getJSON("./data/users.json", function (data) {
+            var dataUsers = data["users"];
+            var userData = '';
+            for (var k = 0; k < dataUsers.length; k++) {
+                if (dataUsers[k]["username"] == username) {
+                    userData = dataUsers[k];
+                    break;
+                }
+            }
+
+            // Write bio.
+            var bio = document.getElementById("user-bio");
+            if (dataUsers[k]["bio"] != "") {
+                bio.innerHTML = dataUsers[k]["bio"];
+            }
+
+            // Assign header picture
+            document.getElementById("header-img").src = dataUsers[k]["header"];
+
+            // Build posts and comments that have already been submitted.
+            var postsNode = document.getElementById("profile-page-id");
+            var numPosts = userData["posts"].length;
+            var postsHTML = '';
+            for (var m = numPosts - 1; m >= 0; m--) {
+                let currPost = userData["posts"][m];
+                let comments = userData["posts"][m]["comments"];
+                let newComments = [];
+
+                for (var n = 0; n < comments.length; n++) {
+                    newComments.push(buildCommentHTML(comments[n]));
+                }
+
+                postsHTML += buildPost(currPost["id"], currPost["pic"], currPost["user"], currPost["time"], currPost["content"], undefined, newComments);
+            }
+
+            // Write posts and comments to page.
+            if (postsHTML != '') {
+                postsNode.innerHTML = "<h3>Profile Posts</h3>" + postsHTML + "<h3 id='empty-warning'>End :)</h3>";
+
+            }
+            // Assign profile pictures sources.
+            var profilePics = document.getElementsByClassName("phi-profile-picture");
+            if (dataUsers[k]["picture"] == "") {
+                for (var j = 0; j < profilePics.length; j++) {
+                    if (profilePics[j].className == "phi-profile-picture") {
+                        profilePics[j].src = "./images/default-user.jpg";
+                    }
+
+                }
+            } else {
+                for (var i = 0; i < profilePics.length; i++) {
+                    if (profilePics[i].className == "phi-profile-picture") {
+                        profilePics[i].src = dataUsers[k]["picture"];
+                    }
+
+                }
+            }
+
+            // Follow/Unfollow button logic
+            var currUsers = data["users"];
+            var currUserData = '';
+            for (var y = 0; y < currUsers.length; y++) {
+                if (currUsers[y]["username"] == currUser) {
+                    currUserData = currUsers[y];
+                    break;
+                }
+            }
+
+            let currUserFriends = currUserData["friends"];
+            let follow = true;
+            for (var x = 0; x < currUserFriends.length; x++) {
+                if (currUserFriends[x]["user"] == username) {
+                    follow = false;
+                }
+            }
+
+            // If user does not follow the current profile, then show the FOLLOW button
+            if (follow == true) {
+                followBtn = true;
+                document.getElementById("follow-unfollow").innerHTML = "<ion-icon name='heart-outline'></ion-icon>Follow<div class='btn-secondary'></div>";
+            }
+
+            // Otherwise, show the UNFOLLOW button
+            else {
+                followBtn = false;
+                document.getElementById("follow-unfollow").innerHTML = "<ion-icon name='heart-outline'></ion-icon>Unfollow<div class='btn-secondary'></div>";
+            }
+
+
+        }).fail(function () {
+
+        });
+
+    });
+
+    function storeCommentInDB(theID, theUser, theContent) {
+        $.getJSON("./data/users.json", function (data) {
+            var dataUsers = data["users"];
+            var userData = '';
+            for (var k = 0; k < dataUsers.length; k++) {
+                if (dataUsers[k]["username"] == username) {
+                    userData = dataUsers[k];
+                    break;
+                }
+            }
+
+            var posts = userData["posts"];
+            for (var i = 0; i < posts.length; i++) {
+                if (posts[i]["id"] == theID) {
+                    dataUsers[k]["posts"][i]["comments"].push(
+                        {
+                            "user": currUser,
+                            "content": theContent
+                        }
+                    )
+                }
+            }
+
+            $.ajax
+                ({
+                    type: "POST",
+                    url: '/saveComment',
+                    data: JSON.stringify({ "data": dataUsers }),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function () { console.log("Successful insertion to comments JSON."); },
+                    failure: function () { console.log("Error when inserting to comments JSON."); }
+                });
+
+        }).fail(function () {
+            console.log("Pushing new comment to DB failed!");
+        });
+
+    }
+
+    function buildPost(theID, theProfilePicSrc, theUser, theDate, theContent, theYTFrame, theComments) {
+        let oldComment = theComments != [] ? theComments.join("") : '';
+        theYTFrame = theYTFrame === undefined ? '' : theYTFrame;
+
+        return `
+            <div class="post-page-inner" id="post-` + theID + `">
+                        <div class="profile-page-post-inner">
+                            <!-- Post Header -->
+                            <div class="post-header">
+                                <div style="margin: 80px 20px" class="content">
+                                        <!-- Profile Picture in the New Post -->
+                                        <div class="phi-profile-picture-wrapper-post">
+                                            <div class="phi-profile-picture-inner flexbox">
+                                                <img class="phi-profile-picture" src="` + theProfilePicSrc + `" alt="">
+                                            </div>
+                                        </div>
+                                        <!-- Username -->
+                                        <div style="margin-left: 10px;" class="details">
+                                            <p><span id="username">
+                                                    ` + theUser + `
+                                                </span><br>
+                                                <span id="datetime">` + theDate + `</span>
+                                            </p>
+                                        </div>
+                                </div>
+                                <div class="post-content"><p>` + theContent + `</p></div>
+                            </div>
+                            <br>
+                            <hr>
+                            <!-- Post Comments -->
+                            <div class="post-comments">
+                                <div class="form">
+                                    <p>Add comment:</p>
+                                    <textarea class="new-comment" id="new-comment-` + theID + `" maxlength="280" onkeyup="countChar(this, '` + theID + `')"
+                                        placeholder="Wanna comment? (Max. 280 characters)" spellcheck="false"
+                                        required></textarea>
+                                    <div class="charNumClass" id="charNum` + theID + `"></div>
+                                    <button class="submit-comment" type="submit" onclick="postComment('` + theID + `')">Comment</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <!-- Old Comments -->
+                            <div id="old-comments-` + theID + `" class="old-comments">
+                                <p>Past comments:</p>
+                                <br>` + oldComment + `
+                            </div>
+                        </div>
+                    </div>`;
+    }
+
+    function buildCommentHTML(comment) {
+        let user = comment["user"];
+        let content = comment["content"];
+
+        return "<span class='an-old-comment'><p><b><i>" + user + ": </i></b>" + content + "</p></span><br>";
+    }
+
+    function countChar(val, num) {
+        var len = val.value.length;
+        if (len >= 280) {
+            val.value = val.value.substring(0, 280);
+        } else {
+            if (num == '0') {
+                $('#charNum').text(280 - len);
+            } else {
+                $('#charNum' + num).text(280 - len);
+            }
+        }
+    };
+
+    function postComment(uniqueID) {
+        var textComment = document.getElementById("new-comment-" + uniqueID).value;
+        var oldComments = document.getElementById("old-comments-" + uniqueID);
+
+        oldComments.innerHTML += "<span class='an-old-comment'><p><b><i>" + currUser + ": </i></b>" + textComment + "</p></span><br>";
+        document.getElementById("new-comment-" + uniqueID).value = '';
+        document.getElementById("new-comment-" + uniqueID).placeholder = 'Wanna comment? (Max. 280 characters)';
+        document.getElementById("charNum" + uniqueID).innerHTML = "280";
+
+        // Store new comment in JSON database.
+        storeCommentInDB(uniqueID, username, textComment);
+    }
+
+    function followOrUnfollow(element) {
+        // If button is FOLLOW
+        if (followBtn == true) {
+            followBtn = false;
+            document.getElementById("follow-unfollow").innerHTML = "<ion-icon name='heart-outline'></ion-icon>Unfollow<div class='btn-secondary'></div>";
+
+            // Follow on database
+            $.getJSON("./data/users.json", function (data) {
+                var dataUsers = data["users"];
+                var userData = '';
+                var usernameID = '';
+
+                for (var k = 0; k < dataUsers.length; k++) {
+                    if (dataUsers[k]["username"] == currUser) {
+                        userData = dataUsers[k];
+                        break;
+                    }
+                }
+
+                for (var i = 0; i < dataUsers.length; i++) {
+                    if (dataUsers[i]["username"] == username) {
+                        usernameID = dataUsers[i]["id"];
+                        break;
+                    }
+                }
+
+                dataUsers[k]["friends"].push(
+                    {
+                        "id": usernameID,
+                        "user": username
+                    }
+                );
+
+                $.ajax
+                    ({
+                        type: "POST",
+                        url: '/follow',
+                        data: JSON.stringify({ "data": dataUsers }),
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function () { console.log("Successful unfollow in JSON."); },
+                        failure: function () { console.log("Error unfollow in JSON."); }
+                    });
+
+
+            });
+        }
+
+        // If button is UNFOLLOW
+        else {
+            followBtn = true;
+            document.getElementById("follow-unfollow").innerHTML = "<ion-icon name='heart-outline'></ion-icon>Follow<div class='btn-secondary'></div>";
+
+            // Unfollow on database
+            $.getJSON("./data/users.json", function (data) {
+                var dataUsers = data["users"];
+                var userData = '';
+                for (var k = 0; k < dataUsers.length; k++) {
+                    if (dataUsers[k]["username"] == currUser) {
+                        userData = dataUsers[k];
+                        break;
+                    }
+                }
+
+                var friends = dataUsers[k]["friends"];
+                for (var j = 0; j < friends.length; j++) {
+                    if (friends[j]["user"] == username) {
+                        dataUsers[k]["friends"].splice(j, 1);
+                    }
+                }
+
+                $.ajax
+                    ({
+                        type: "POST",
+                        url: '/unfollow',
+                        data: JSON.stringify({ "data": dataUsers }),
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function () { console.log("Successful unfollow in JSON."); },
+                        failure: function () { console.log("Error unfollow in JSON."); }
+                    });
+
+
+            }).fail(function () {
+
+            });
+
+        }
+
+    }
+
+</script>
+
+</html>

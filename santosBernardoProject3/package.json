@@ -1,0 +1,11 @@
+{
+  "name": "santosbernardoproject3",
+  "version": "1.0.0",
+  "description": "Project #3 for CSC3950",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bernardo Santos",
+  "license": "ISC"
+}

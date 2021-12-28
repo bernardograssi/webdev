@@ -1,0 +1,245 @@
+/* Import Google Font - Poppins */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+::selection {
+    color: #fff;
+    background: #1a81ff;
+}
+
+.container {
+    width: 950px;
+    height: 480px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 10px;
+    transition: height 0.2s ease;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    margin: auto;
+}
+
+.container.active {
+    height: 590px;
+}
+
+.container .wrapper {
+    width: 950px;
+    display: flex;
+}
+
+.container .wrapper section {
+    width: 950px;
+    background: #fff;
+}
+
+.container img {
+    cursor: pointer;
+}
+
+.container .post {
+    transition: margin-left 0.18s ease;
+}
+
+.container.active .post {
+    margin-left: -500px;
+}
+
+.post header {
+    font-size: 22px;
+    font-weight: 600;
+    padding: 17px 0;
+    text-align: center;
+    border-bottom: 1px solid #bfbfbf;
+}
+
+.post .form {
+    margin: 20px 25px;
+}
+
+.post .form .content, .audience .list li .column {
+    display: flex;
+    align-items: center;
+}
+
+.post .form .content img {
+    cursor: default;
+    max-width: 80px;
+    height: 100%;
+}
+
+.post .form .content .details {
+    margin: -3px 0 0 12px;
+}
+
+.form .content .details p {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.form :where(textarea, button) {
+    width: 100%;
+    outline: none;
+    border: none;
+}
+
+.form textarea {
+    resize: none;
+    font-size: 18px;
+    margin-top: 30px;
+    min-height: 100px;
+    height: 120px;
+}
+
+.form textarea::placeholder {
+    color: #858585;
+}
+
+.form textarea:focus::placeholder {
+    color: #b3b3b3;
+}
+
+.form button {
+    height: 53px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #BCC0C4;
+    cursor: no-drop;
+    border-radius: 7px;
+    background: #e2e5e9;
+    transition: all 0.3s ease;
+    margin-top: 25px;
+}
+
+.form textarea:valid~button {
+    color: #fff;
+    cursor: pointer;
+    background: rgb(6, 224, 224);
+}
+
+.form textarea:valid~button:hover {
+    background: hsla(var(--primary), 1);
+}
+
+.profile-page {
+    color: black;
+}
+
+textarea {
+    color: black;
+}
+
+.details p {
+    color: black;
+    margin-bottom: 85px;
+}
+
+#username {
+    color: black;
+}
+
+.details p #username {
+    text-decoration: underline;
+}
+
+.profile-page-post-inner {
+    background: white;
+    color: black;
+    width: 950px;
+    height: 750px;
+    border-radius: 20px;
+    margin: auto;
+    overflow-y: auto;
+}
+
+.post-header>img {
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.post-header p {
+    margin-left: 100px;
+    margin-top: -70px;
+}
+
+.post-content p {
+    color: black;
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+.post-content iframe {
+    margin: auto;
+    display: block;
+    margin-top: 20px;
+}
+
+.post-comments p {
+    margin-left: 20px;
+    margin-top: 10px;
+    color: black;
+}
+
+.old-comments p {
+    margin-left: 20px;
+    margin-top: 10px;
+    color: black;
+}
+
+.new-comment {
+    border: solid;
+    margin-left: 20px;
+    width: 95%;
+    height: 85px;
+}
+
+.charNumClass {
+    margin-top: 5px;
+    margin-left: 20px;
+}
+
+.submit-comment {
+    width: 120px;
+    background: magenta;
+    color: black;
+    margin-left: 800px;
+    margin-top: -1px;
+    padding: 0px;
+}
+
+.an-old-comment>p {
+    border-bottom: 3px solid black;
+}
+
+.logo {
+    font-size: 6.2rem;
+    animation: pulsate 0.11s ease-in-out infinite alternate;
+    color: #fff;
+    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #f09, 0 0 82px #f09, 0 0 42px #f09, 0 0 102px #f09, 0 0 151px #f09;
+}
+
+@keyframes pulsate {
+    100% {
+        text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #f09, 0 0 80px #f09, 0 0 90px #f09, 0 0 100px #f09, 0 0 150px #f09;
+    }
+    0% {
+        text-shadow: 0 0 4px #fff, 0 0 10px #fff, 0 0 18px #fff, 0 0 38px #f09, 0 0 73px #f09, 0 0 80px #f09, 0 0 94px #f09, 0 0 140px #f09;
+    }
+}
+
+#empty-warning {
+    color: #fff;
+    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #f09, 0 0 82px #f09, 0 0 92px #f09, 0 0 102px #f09, 0 0 151px #f09;
+    text-align: center;
+    margin-top: 80px;
+    visibility: visible;
+}
+
+.phi-profile-picture-2 {
+    width: 6.2em;
+    height: 6.4em;
+    position: relative;
+    margin-top: -60px;
+    margin-left: 1em;
+}

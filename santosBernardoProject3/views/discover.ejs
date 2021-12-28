@@ -1,0 +1,342 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!--Font-Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--External Stylesheet-->
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/friends.css">
+    <link rel="stylesheet" type="text/css" href="/css/discover.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <img src="/images/p3-logo-transparent.png" width="70" length="70">
+            <li class="logo">P#3 Social Media</li>
+
+            <div class="dropdown">
+                <li class="items">
+                    <span class="icon-navbar">
+                        <a href="/home"><i class="fas fa-home"></i>
+                            Home</a>
+                    </span>
+                </li>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <li class="items">
+                    <span class="icon-navbar">
+                        <a href="#" id="account-a">
+                            <i class="fas fa-user-circle"></i>
+                            Account</a>
+                    </span>
+                </li>
+                <div class="dropdown-content">
+                    <a href="/profile"><i class="far fa-id-card"></i>Profile</a>
+                    <a href="/friends"><i class="fas fa-users"></i>Friends</a>
+                    <a href="javascript:deleteAccount();"><i class="fas fa-trash-alt"></i>Delete</a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                </div>
+            </div>
+            <li class="btn"><a href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </nav>
+
+    <!-- Main -->
+    <main id="main" class="flexbox-col-start-center">
+        <div class="view-width">
+            <div class="top-welcome">
+                <span>
+                    <p>
+                        <%= user %>, discover new friends right here right now!
+                    </p>
+                    <span id="user-js">
+                        <%= user %>
+                    </span>
+                </span>
+            </div>
+            <div class="d-container">
+                <input type="text" placeholder="Search..." id="search">
+                <div class="search"></div>
+            </div>
+            <section style="margin-top: 150px;" id="profile-page-id" class="profile-page">
+                <div class="friends-container" id="friends-section">
+                    <!-- Each Row -->
+                </div>
+
+                <h3 id="empty-warning"></h3>
+            </section>
+        </div>
+    </main>
+</body>
+
+<script>
+    var username = document.getElementById("user-js").innerHTML.trim();
+    document.getElementById("search").addEventListener("input", searchFilter);
+
+    $(document).ready(function () {
+
+        // Assign button click function.
+        $('.btn').click(function () {
+            $('.items').toggleClass("show");
+            $('ul li').toggleClass("hide");
+        });
+
+        function userExists(arr, username) {
+            return arr.some(function (el) {
+                return el.user === username;
+            });
+        }
+
+        // Build friends profiles cards
+        $.getJSON("./data/users.json", function (data) {
+            var dataUsers = data["users"];
+            var profileContainer = document.getElementById("friends-section");
+            var profilesHTML = "<div class='row'>";
+            var userFriendsList = [];
+
+            for (var j = 0; j < dataUsers.length; j++) {
+                if (dataUsers[j]["username"] == username) {
+                    userFriendsList = dataUsers[j]["friends"];
+                    break;
+                }
+            }
+
+            // For each user that is not the current one, build a profile card and write to the page.
+            let counter = 1;
+            for (var i = 1; i <= dataUsers.length; i++) {
+                if (dataUsers[i - 1]["username"] != username) {
+                    let currID = uuidv4();
+                    let currData = dataUsers[i - 1];
+                    let currBio = currData["bio"];
+                    let currProfilePictureSrc = currData["picture"];
+                    let follow = false;
+
+                    if (userExists(userFriendsList, currData["username"]) == true) {
+                        follow = true;
+                    }
+
+                    if (counter % 4 == 0 && i != dataUsers.length) {
+                        profilesHTML += buildProfileCard(currData["username"], currProfilePictureSrc, currBio, currID, follow) + "</div><div class='row'>"
+                    } else if (counter % 4 != 0 && i != dataUsers.length) {
+                        profilesHTML += buildProfileCard(currData["username"], currProfilePictureSrc, currBio, currID, follow);
+                    } else {
+                        profilesHTML += buildProfileCard(currData["username"], currProfilePictureSrc, currBio, currID, follow) + "</div>";
+                    }
+
+                    counter = counter + 1;
+                }
+            }
+            profileContainer.innerHTML += profilesHTML;
+
+
+        }).fail(function () {
+
+        });
+
+    });
+
+    function uuidv4() {
+        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+    };
+
+    function deleteAccount() {
+        let result = confirm('Are you sure you want to delete? Your action cannot be undone!');
+        if (result == true) {
+            $.ajax({
+                url: "/delete",
+                type: "POST",
+                data: JSON.stringify({ "user": username }),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    if (response.status == 200) {
+                        window.location.replace('/index');
+                    }
+                }, error: function (xhr) {
+                    if (xhr.status == 200) {
+                        window.location.replace('/index');
+                    }
+                }
+            });
+        }
+    };
+
+    function buildProfileCard(theUser, theProfilePicSrc, theBio, theID, theFollowStatus) {
+
+        let followStr = "Follow";
+        let followFunction = "javascript:follow"
+
+        if (theFollowStatus == true) {
+            followStr = "Unfollow";
+            followFunction = "javascript:unfollow";
+        }
+
+        return `<div class="col-12 col-sm-6 col-md-4 col-lg-3" id="` + theID + `">
+                    <div class="our-team" style="border-color:black;">
+                        <div class="picture">
+                            <img class="img-fluid" src="` + theProfilePicSrc + `">
+                        </div>
+                        <div class="team-content">
+                            <h3 id='user-` + theID + `' class="name">` + theUser + `</h3>
+                        </div>
+                        <h4 class="title">` + theBio + `</h4>
+                        <ul class="social">
+                            <li><a class="follow" href="/userprofile?name=` + theUser + `">Visit Page</a></li>
+                            <li><a class="follow" id="social-` + theID + `" href="` + followFunction + `('` + String(theID) + `')">` + followStr + `</a></li>
+                        </ul>
+                    </div>
+        </div>`;
+    };
+
+    function follow(theID) {
+        // Add friend to database
+        document.getElementById("social-" + theID).setAttribute("href", "javascript:unfollow('" + theID + "')");
+        document.getElementById("social-" + theID).innerHTML = "Unfollow";
+
+        var userToFollow = document.getElementById("user-" + theID).innerHTML;
+
+        $.getJSON("./data/users.json", function (data) {
+            var dataUsers = data["users"];
+            var userData = '';
+            var usernameID = '';
+
+            for (var k = 0; k < dataUsers.length; k++) {
+                if (dataUsers[k]["username"] == username) {
+                    userData = dataUsers[k];
+                    break;
+                }
+            }
+
+            for (var i = 0; i < dataUsers.length; i++) {
+                if (dataUsers[i]["username"] == userToFollow) {
+                    usernameID = dataUsers[i]["id"];
+                    break;
+                }
+            }
+
+            dataUsers[k]["friends"].push(
+                {
+                    "id": usernameID,
+                    "user": userToFollow
+                }
+            );
+
+            $.ajax
+                ({
+                    type: "POST",
+                    url: '/follow',
+                    data: JSON.stringify({ "data": dataUsers }),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function () { console.log("Successful unfollow in JSON."); },
+                    failure: function () { console.log("Error unfollow in JSON."); }
+                });
+
+        });
+
+    };
+
+    function unfollow(theID) {
+        document.getElementById("social-" + theID).setAttribute("href", "javascript:follow('" + theID + "')");
+        document.getElementById("social-" + theID).innerHTML = "Follow";
+
+        var userToFollow = document.getElementById("user-" + theID).innerHTML;
+
+        // Remove friend from database
+        $.getJSON("./data/users.json", function (data) {
+            var dataUsers = data["users"];
+            var userData = '';
+            for (var k = 0; k < dataUsers.length; k++) {
+                if (dataUsers[k]["username"] == username) {
+                    userData = dataUsers[k];
+                    break;
+                }
+            }
+
+            var friends = dataUsers[k]["friends"];
+            for (var j = 0; j < friends.length; j++) {
+                if (friends[j]["user"] == userToFollow) {
+                    dataUsers[k]["friends"].splice(j, 1);
+                }
+            }
+
+            $.ajax
+                ({
+                    type: "POST",
+                    url: '/unfollow',
+                    data: JSON.stringify({ "data": dataUsers }),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function () { console.log("Successful unfollow in JSON."); },
+                    failure: function () { console.log("Error unfollow in JSON."); }
+                });
+
+
+        }).fail(function () {
+
+        });
+
+    }
+
+    function searchFilter() {
+        let text = document.getElementById("search").value;
+        let nodes = document.getElementsByClassName("name");
+        let counter = 0;
+        let hiddenList = [];
+        let visibleList = [];
+
+        // Search for a match in the users' names
+        for (var k = 0; k < nodes.length; k++) {
+            let nodeUser = nodes[k].innerHTML.trim();
+            let nodeID = String(nodes[k].id).split("user-")[1];
+
+            // If there is not a match, then add the node to the hidden list
+            if (String(nodeUser).includes(text) == false) {
+                hiddenList.push(nodeID);
+            }
+            // If there is a match, add the node to the visible list
+            else {
+                visibleList.push(nodeID);
+            }
+
+        }
+
+        let rows = document.getElementsByClassName("row");
+        let vCount = 0;
+        let hCount = 0;
+
+        for(var r = 0; r < rows.length; r++){
+            // Each row
+            for(var f = 0; f < 4; f++){
+                if (vCount < visibleList.length){
+                    document.getElementById(visibleList[vCount]).style.visibility = "visible";
+                    rows[r].insertBefore(document.getElementById(visibleList[vCount]), rows[r].firstChild);
+                    vCount += 1;
+                } else if (hCount < hiddenList.length){
+                    document.getElementById(hiddenList[hCount]).style.visibility = "hidden";
+                    rows[r].insertBefore(document.getElementById(hiddenList[hCount]), rows[r].lastChild);
+                    hCount += 1;
+                }
+            }
+        }
+
+    };
+
+</script>
+
+</html>

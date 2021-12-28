@@ -1,0 +1,338 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!--Font-Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!--External Stylesheet-->
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="./css/profile.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <img src="/images/p3-logo-transparent.png" width="70" length="70">
+            <li class="logo">P#3 Social Media</li>
+
+            <div class="dropdown">
+                <li class="items">
+                    <span class="icon-navbar">
+                        <a href="#"><i class="fas fa-home"></i>
+                            Home</a>
+                    </span>
+                </li>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <li class="items">
+                    <span class="icon-navbar">
+                        <a href="#" id="account-a">
+                            <i class="fas fa-user-circle"></i>
+                            Account</a>
+                    </span>
+                </li>
+                <div class="dropdown-content">
+                    <a href="/profile"><i class="far fa-id-card"></i>Profile</a>
+                    <a href="/friends"><i class="fas fa-users"></i>Friends</a>
+                    <a href="javascript:deleteAccount();"><i class="fas fa-trash-alt"></i>Delete</a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                </div>
+            </div>
+            <li class="btn"><a href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </nav>
+
+    <!-- Main -->
+    <main id="main" class="flexbox-col-start-center">
+        <!-- Profile Page -->
+        <div class="view-width">
+            <div class="top-welcome">
+                <span>
+                    <p>
+                        Welcome, <%= user %>!
+                    </p>
+                    <span id="user-js">
+                        <%= user %>
+                    </span>
+                </span>
+            </div>
+            <div class="phi-profile-picture-wrapper" style="margin: auto;">
+                <div class="phi-profile-picture-inner flexbox">
+                    <img class="phi-profile-picture" id="profile-img-id" src="" alt="">
+                </div>
+                <img class="phi-profile-picture-blur" src="" alt="">
+                <br>
+                <p id="friends-number" style="text-align: center;">
+
+                </p>
+            </div>
+
+
+            <!-- Profile Posts -->
+            <section id="profile-page-id" class="profile-page">
+                <h3>Feed</h3>
+                <!-- Each Post -->
+                <h3 id="empty-warning">
+                    Your friends have not posted anything yet :(</h3>
+            </section>
+
+        </div>
+    </main>
+</body>
+<script>
+    var username = document.getElementById("user-js").innerHTML.trim();
+
+    $(document).ready(function () {
+
+        // Assign button click function.
+        $('.btn').click(function () {
+            $('.items').toggleClass("show");
+            $('ul li').toggleClass("hide");
+        });
+
+        // Write posts to page
+        $.getJSON("./data/users.json", function (data) {
+            var dataUsers = data["users"];
+            var friends = [];
+
+            for (var i = 0; i < dataUsers.length; i++) {
+                if (dataUsers[i]["username"] == username) {
+                    friends = dataUsers[i]["friends"];
+                    document.getElementById("profile-img-id").src = dataUsers[i]["picture"];
+                    document.getElementById("friends-number").innerHTML = "<a href='/friends'>" + friends.length + " friend(s)</a>";
+                    break;
+                }
+            }
+
+            // From friends list, get posts and sort by date
+            var postsList = [];
+            for (var j = 0; j < friends.length; j++) {
+                // For each friend, get posts
+                for (var k = 0; k < dataUsers.length; k++) {
+                    if (dataUsers[k]["username"] == friends[j]["user"]) {
+                        let currPosts = dataUsers[k]["posts"];
+
+                        // For each post of current friend, add to the list of posts
+                        for (var p = 0; p < currPosts.length; p++) {
+                            let postDate = parseDateString(currPosts[p]["time"]);
+                            postsList.push(
+                                {
+                                    "post": currPosts[p],
+                                    "date": postDate
+                                }
+                            )
+                        }
+                        break;
+                    }
+                }
+            }
+
+
+            // For each of current user's posts, add it to PostsList
+            var userPosts = dataUsers[i]["posts"];
+            for (var c = userPosts.length - 1; c >= 0; c--) {
+                postsList.push(
+                    {
+                        "post": userPosts[c],
+                        "date": parseDateString(userPosts[p]["time"])
+                    }
+                )
+            }
+
+
+            postsList.sort(function (a, b) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                return new Date(b.date) - new Date(a.date);
+            });
+
+            // Build posts and comments that have already been submitted.
+            var postsNode = document.getElementById("profile-page-id");
+            var numPosts = postsList.length;
+            var postsHTML = '';
+
+            for (var m = 0; m < numPosts; m++) {
+                let currPost = postsList[m]["post"];
+                let comments = currPost["comments"];
+                let newComments = [];
+
+                for (var n = 0; n < comments.length; n++) {
+                    newComments.push(buildCommentHTML(comments[n]));
+                }
+
+                postsHTML += buildPost(currPost["id"], currPost["pic"], currPost["user"], currPost["time"], currPost["content"], undefined, newComments);
+            }
+
+            // Write posts and comments to page.
+            if (postsHTML != '') {
+                postsNode.innerHTML = "<h3>Feed</h3>" + postsHTML + "<h3 id='empty-warning'>End :)</h3>";
+            }
+
+
+        });
+
+    });
+
+    function deleteAccount() {
+        let result = confirm('Are you sure you want to delete? Your action cannot be undone!');
+        if (result == true) {
+            $.ajax({
+                url: "/delete",
+                type: "POST",
+                data: JSON.stringify({ "user": username }),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    if (response.status == 200) {
+                        window.location.replace('/index');
+                    }
+                }, error: function (xhr) {
+                    if (xhr.status == 200) {
+                        window.location.replace('/index');
+                    }
+                }
+            });
+        }
+    };
+
+    function parseDateString(date) {
+        let pattern = /^(\d{2}).(\d{2}).(\d{4})\s(\d{2}):(\d{2})$/;
+
+        if (pattern.test(date)) {
+            let matches = date.match(pattern);
+            let day = matches[1];
+            let month = matches[2];
+            let year = matches[3];
+            let hour = matches[4];
+            let minutes = matches[5];
+
+            return new Date(year, parseInt(month) - 1, day, hour, minutes);
+        }
+
+    }
+
+    function buildPost(theID, theProfilePicSrc, theUser, theDate, theContent, theYTFrame, theComments) {
+        let oldComment = theComments != [] ? (theComments).join("") : '';
+        theYTFrame = theYTFrame === undefined ? '' : theYTFrame;
+
+        return `
+            <div class="post-page-inner" id="post-` + theID + `">
+                        <div class="profile-page-post-inner">
+                            <!-- Post Header -->
+                            <div class="post-header">
+                                <div style="margin: 80px 20px" class="content">
+                                        <!-- Profile Picture in the New Post -->
+                                        <div class="phi-profile-picture-wrapper-post">
+                                            <div class="phi-profile-picture-inner flexbox">
+                                                <img class="phi-profile-picture" src="` + theProfilePicSrc + `" alt="">
+                                            </div>
+                                        </div>
+                                        <!-- Username -->
+                                        <div style="margin-left: 10px;" class="details">
+                                            <p><span id="username">
+                                                    ` + theUser + `
+                                                </span><br>
+                                                <span id="datetime">` + theDate + `</span>
+                                            </p>
+                                        </div>
+                                </div>
+                                <div class="post-content"><p>` + theContent + theYTFrame + `</p></div>
+                            </div>
+                            <br>
+                            <hr>
+                            <!-- Post Comments -->
+                            <div class="post-comments">
+                                <div class="form">
+                                    <p>Add comment:</p>
+                                    <textarea class="new-comment" id="new-comment-` + theID + `" maxlength="280" onkeyup="countChar(this, '` + theID + `')"
+                                        placeholder="Wanna comment? (Max. 280 characters)" spellcheck="false"
+                                        required></textarea>
+                                    <div class="charNumClass" id="charNum` + theID + `"></div>
+                                    <button class="submit-comment" type="submit" onclick="postComment('` + theID + `')">Comment</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <!-- Old Comments -->
+                            <div id="old-comments-` + theID + `" class="old-comments">
+                                <p>Past comments:</p>
+                                <br>` + oldComment + `
+                            </div>
+                        </div>
+                    </div>`;
+    }
+
+    function buildCommentHTML(comment) {
+        let user = comment["user"];
+        let content = comment["content"];
+
+        return "<span class='an-old-comment'><p><b><i>" + user + ": </i></b>" + content + "</p></span><br>";
+    }
+
+    function postComment(uniqueID) {
+        var textComment = document.getElementById("new-comment-" + uniqueID).value;
+        var oldComments = document.getElementById("old-comments-" + uniqueID);
+
+        oldComments.innerHTML += "<span class='an-old-comment'><p><b><i>" + username + ": </i></b>" + textComment + "</p></span><br>";
+        document.getElementById("new-comment-" + uniqueID).value = '';
+        document.getElementById("new-comment-" + uniqueID).placeholder = 'Wanna comment? (Max. 280 characters)';
+        document.getElementById("charNum" + uniqueID).innerHTML = "280";
+
+        // Store new comment in JSON database.
+        storeCommentInDB(uniqueID, username, textComment);
+    }
+
+    function storeCommentInDB(theID, theUser, theContent) {
+        $.getJSON("./data/users.json", function (data) {
+            var dataUsers = data["users"];
+            var userData = '';
+            for (var k = 0; k < dataUsers.length; k++) {
+                if (dataUsers[k]["username"] == username) {
+                    userData = dataUsers[k];
+                    break;
+                }
+            }
+
+            var posts = userData["posts"];
+            for (var i = 0; i < posts.length; i++) {
+                if (posts[i]["id"] == theID) {
+                    dataUsers[k]["posts"][i]["comments"].push(
+                        {
+                            "user": theUser,
+                            "content": theContent
+                        }
+                    )
+                }
+            }
+
+            console.log(dataUsers);
+
+            $.ajax
+                ({
+                    type: "POST",
+                    url: '/saveComment',
+                    data: JSON.stringify({ "data": dataUsers }),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function () { console.log("Successful insertion to comments JSON."); },
+                    failure: function () { console.log("Error when inserting to comments JSON."); }
+                });
+
+        }).fail(function () {
+            console.log("Pushing new comment to DB failed!");
+        });
+
+    }
+
+
+</script>
+
+</html>
