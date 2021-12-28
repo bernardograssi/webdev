@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .section {
+            transform-origin: center top;
+            transform: scaleY(calc(1 - var(--scale)));
+            margin-top: 100px;
+        }
+    
+        .section>* {
+            transform-origin: center top;
+            transform: scaleY(calc(1 / (1 - var(--scale))));
+        }
+    
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: bold;
+            line-height: 1.125;
+        }
+    
+        .byline {
+            display: block;
+            font-size: 0.6em;
+            margin: calc(var(--space) / 1.35) 0;
+        }
+    
+        .content {
+            position: relative;
+            margin-top: 100px;
+            margin-bottom: auto;
+            padding: var(--space);
+            max-width: 100ch;
+            width: calc(100% - var(--space));
+            background: hsla(5, 15%, 5%, 0.9);
+            border-radius: 25px;
+        }
+    
+        .content>*+* {
+            margin-top: 2rem;
+        }
+    
+        .content h3 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+        }
+    </style>
+
+<head>
+    <title>Brazil in World Cups</title>
+    <link rel="icon" href="images/icon-top.jpg" type="image/gif">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id="navbar">
+        <ul class="nav">
+            <li><a class="active" href="index.html"><i class="fa fa-fw fa-home"></i> Home & History</a></li>
+            <li><a href="teams.html"><i class="fas fa-camera-retro"></i> Winning Teams</a></li>
+            <li><a href="goals.html"><i class="fas fa-futbol"></i> Best Goals</a></li>
+            <li><a href="players.html"><i class="fas fa-address-card"></i> Best Players</a></li>
+        </ul>
+    </div>
+
+    <main class="main">
+        <section class="section">
+            <article class="content">
+                <h3>Reference Pages for Project #1</h3>
+                <div class="container">
+                    <p><a href="https://codepen.io/hexagoncircle/pen/JjRYaZw">→ Parallax Effect ←</a></p>
+                    <p><a href="https://codepen.io/ifu/pen/KRxeBL">→ Video Cards ←</a></p>
+                    <p><a href="https://codepen.io/arti2002/pen/LYRxeOG">→ Player Cards ←</a></p>
+                </div>
+            </article>
+        </section>
+    </main>
+</body>
+
+</html>

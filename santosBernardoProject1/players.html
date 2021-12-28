@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Brazil in World Cups</title>
+    <link rel="icon" href="images/icon-top.jpg" type="image/gif">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+    .section {
+        transform-origin: center top;
+        transform: scaleY(calc(1 - var(--scale)));
+    }
+
+    .section>* {
+        transform-origin: center top;
+        transform: scaleY(calc(1 / (1 - var(--scale))));
+    }
+
+    .section-title {
+        font-family: var(--font-heading);
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: bold;
+        line-height: 1.125;
+    }
+
+    .byline {
+        display: block;
+        font-size: 0.6em;
+        margin: calc(var(--space) / 1.35) 0;
+    }
+
+    .content {
+        position: relative;
+        margin-top: 100px;
+        margin-bottom: auto;
+        padding: var(--space);
+        max-width: 100ch;
+        width: calc(100% - var(--space));
+        background: hsla(5, 15%, 5%, 0.9);
+        border-radius: 25px;
+    }
+
+    .content>*+* {
+        margin-top: 2rem;
+    }
+
+    .container {
+
+        max-height: 300px;
+        max-width: 100%;
+        min-height: 400px;
+        min-width: 300px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    .border {
+        height: 369px;
+        width: 290px;
+        background: transparent;
+        border-radius: 10px;
+        transition: border 1s;
+        position: relative;
+        max-width: 100%;
+    }
+
+    .border:hover {
+        border: 1px solid #fff;
+    }
+
+    .card {
+        height: 379px;
+        width: 300px;
+        background: #808080;
+        border-radius: 10px;
+        transition: background 0.8s;
+        overflow: hidden;
+        background: #000;
+        box-shadow: 0 70px 63px -60px #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        max-width: 100%;
+    }
+
+    .card0 {
+        background: url("images/pele.jpg") center center no-repeat;
+        background-size: 300px;
+    }
+
+    .card0:hover {
+        background: url("images/green-yellow.jpg") top center no-repeat;
+        background-size: 600px;
+    }
+
+    .card0:hover h2, .card0:hover .fab, .card0:hover p{
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    .card1 {
+        background: url("images/garrincha.jpg") center center no-repeat;
+        background-size: 300px;
+    }
+
+    .card1:hover {
+        background: url("images/green-yellow.jpg") top center no-repeat;
+        background-size: 600px;
+    }
+
+    .card1:hover h2, .card1:hover .fab,  .card1:hover p{
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    .card2 {
+        background: url("images/romario.jpeg") center center no-repeat;
+        background-size: 300px;
+        max-width: 100%;
+    }
+
+    .card2:hover {
+        background: url("images/green-yellow.jpg") top center no-repeat;
+        background-size: 600px;
+    }
+
+    .card2:hover h2, .card2:hover .fab, .card2:hover p{
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    .card3 {
+        background: url("images/ronaldo.jpg") center center no-repeat;
+        background-size: 300px;
+    }
+
+    .card3:hover {
+        background: url("images/green-yellow.jpg") top center no-repeat;
+        background-size: 600px;
+    }
+
+    .card3:hover h2, .card3:hover .fab, .card3:hover p {
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    .card4 {
+        background: url("images/jairzinho.jpeg") center center no-repeat;
+        background-size: 300px;
+    }
+
+    .card4:hover {
+        background: url("images/green-yellow.jpg") top center no-repeat;
+        background-size: 600px;
+    }
+
+    .card4:hover h2, .card4:hover .fab, .card4:hover p {
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    .card5 {
+        background: url("images/taffarel.jpg") center center no-repeat;
+        background-size: 300px;
+    }
+
+    .card5:hover {
+        background: url("images/green-yellow.jpg") top center no-repeat;
+        background-size: 600px;
+    }
+
+    .card5:hover h2, .card5:hover .fab, .card5:hover p{
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    .card6 {
+        background: url("images/zico.jpg") center center no-repeat;
+        background-size: 300px;
+    }
+
+    .card6:hover {
+        background: url("images/green-yellow.jpg") top center no-repeat;
+        background-size: 600px;
+    }
+
+    .card6:hover h2, .card6:hover .fab, .card6:hover p{
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    .card7 {
+        background: url("images/r10.jpg") center center no-repeat;
+        background-size: 300px;
+    }
+
+    .card7:hover {
+        background: url("images/green-yellow.jpg") top center no-repeat;
+        background-size: 600px;
+    }
+
+    .card7:hover h2, .card7:hover .fab, .card7:hover p{
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+
+    .card8 {
+        background: url("images/carlos.jpg") center center no-repeat;
+        background-size: 300px;
+    }
+
+    .card8:hover {
+        background: url("images/green-yellow.jpg") top center no-repeat;
+        background-size: 600px;
+    }
+
+    .card8:hover h2, .card8:hover .fab, .card8:hover p{
+        opacity: 1;
+        transition: opacity 1s linear;
+    }
+    
+    h2 {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #fff;
+        margin: 20px;
+        opacity: 0;
+        transition: opacity 1s;
+    }
+
+    .fab {
+        opacity: 0;
+        transition: opacity 1s;
+        margin-left: 20px;
+    }
+
+    .icons {
+        position: absolute;
+        fill: #fff;
+        color: #fff;
+        display: inline-block;
+    }
+
+    .icons span {
+        font-size: 16px;
+    }
+
+    .border p {
+        font-size: 14px;
+        margin-left: 20px;
+        color: black;
+        opacity: 0;
+        line-height: 10px;
+    }
+
+    .content h3 {
+        text-align:center;
+    }
+
+</style>
+
+<body>
+    <div id="navbar">
+        <ul class="nav">
+            <li><a href="index.html"><i class="fa fa-fw fa-home"></i> Home & History</a></li>
+            <li><a href="teams.html"><i class="fas fa-camera-retro"></i> Winning Teams</a></li>
+            <li><a class="active" href="goals.html"><i class="fas fa-futbol"></i> Best Goals</a></li>
+            <li><a href="players.html"><i class="fas fa-address-card"></i> Best Players</a></li>
+        </ul>
+    </div>
+
+    <main class="main">
+        <section class="section">
+            <article class="content">
+                <h3>Brazilian Legends in World Cups</h3>
+
+                <div class="container">
+
+                    <div class="card card0">
+                        <div class="border">
+                            <h2 style="color:black;">Pelé</h2>
+                            <p>→ Editions: 4 (1958, 1962, 1966, 1970)</p>
+                            <p>→ Titles: 3 (1958, 1962, 1970)</p>
+                            <p>→ Goals: 12</p>
+                            <p></p>
+                            <div class="icons">
+                                <a href="https://www.youtube.com/watch?v=2-CS169akqU">
+                                    <i style="color:red;" class="fab fa-youtube-square fa-lg" aria-hidden="true">
+                                        <span style="color:black;">Watch Pelé's documentary</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card1">
+                        <div class="border">
+                            <h2 style="color:black;">Garrincha</h2>
+                            <p>→ Editions: 3 (1958, 1962, 1966)</p>
+                            <p>→ Titles: 2 (1958, 1962)</p>
+                            <p>→ Goals: 5</p>
+                            <p></p>
+                            <div class="icons">
+                                <a href="https://www.youtube.com/watch?v=sPiTbopt7MU">
+                                    <i style="color:red;" class="fab fa-youtube-square fa-lg" aria-hidden="true">
+                                        <span style="color:black;">Watch Garrincha's documentary</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card2">
+                        <div class="border">
+                            <h2 style="color:black;">Romário</h2>
+                            <p>→ Editions: 2 (1990, 1994)</p>
+                            <p>→ Titles: 1 (1994)</p>
+                            <p>→ Goals: 5</p>
+                            <p></p>
+                            <div class="icons">
+                                <a href="https://www.youtube.com/watch?v=dTMi8w1OAjw">
+                                    <i style="color:red;" class="fab fa-youtube-square fa-lg" aria-hidden="true">
+                                        <span style="color:black;">Watch Romário's goals</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container">
+
+                    <div class="card card3">
+                        <div class="border">
+                            <h2 style="color:black;">Ronaldo</h2>
+                            <p>→ Editions: 4 (1994, 1998, 2002, 2006)</p>
+                            <p>→ Titles: 2 (1994, 2002)</p>
+                            <p>→ Goals: 15</p>
+                            <p></p>
+                            <div class="icons">
+                                <a href="https://www.youtube.com/watch?v=BnAOL7z0GY8">
+                                    <i style="color:red;" class="fab fa-youtube-square fa-lg" aria-hidden="true">
+                                        <span style="color:black;">Watch Ronaldo's goals</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card4">
+                        <div class="border">
+                            <h2 style="color:black;">Jairzinho</h2>
+                            <p>→ Editions: 3 (1966, 1970, 1974)</p>
+                            <p>→ Titles: 1 (1970)</p>
+                            <p>→ Goals: 9</p>
+                            <p></p>
+                            <div class="icons">
+                                <a href="https://www.youtube.com/watch?v=2UfFpBT1kG0">
+                                    <i style="color:red;" class="fab fa-youtube-square fa-lg" aria-hidden="true">
+                                        <span style="color:black;">Watch Jairzinho's goals</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card5">
+                        <div class="border">
+                            <h2 style="color:black;">Taffarel</h2>
+                            <p>→ Editions: 3 (1990, 1994, 1998)</p>
+                            <p>→ Titles: 1 (1994)</p>
+                            <p>→ Clean Sheets: 7</p>
+                            <p></p>
+                            <div class="icons">
+                                <a href="https://www.youtube.com/watch?v=3GQtkvGYWO4">
+                                    <i style="color:red;" class="fab fa-youtube-square fa-lg" aria-hidden="true">
+                                        <span style="color:black;">Watch Taffarel's documentary</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container">
+
+                    <div class="card card6">
+                        <div class="border">
+                            <h2 style="color:black;">Zico</h2>
+                            <p>→ Editions: 3 (1978, 1982, 1986)</p>
+                            <p>→ Titles: 0</p>
+                            <p>→ Goals: 5</p>
+                            <p></p>
+                            <div class="icons">
+                                <a href="https://www.youtube.com/watch?v=gAW9WZN_Llo">
+                                    <i style="color:red;" class="fab fa-youtube-square fa-lg" aria-hidden="true">
+                                        <span style="color:black;">Watch Zico's documentary</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card7">
+                        <div class="border">
+                            <h2 style="color:black;">Ronaldinho</h2>
+                            <p>→ Editions: 2 (2002, 2006)</p>
+                            <p>→ Titles: 1 (2002)</p>
+                            <p>→ Goals: 2</p>
+                            <p></p>
+                            <div class="icons">
+                                <a href="https://www.youtube.com/watch?v=k5P8JqCVRFU">
+                                    <i style="color:red;" class="fab fa-youtube-square fa-lg" aria-hidden="true">
+                                        <span style="color:black;">Watch Ronaldinho's documentary</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card8">
+                        <div class="border">
+                            <h2 style="color:black;">Carlos Alberto Torres</h2>
+                            <p>→ Editions: 1 (1970)</p>
+                            <p>→ Titles: 1 (1970)</p>
+                            <p>→ Goals: 1</p>
+                            <p></p>
+                            <div class="icons">
+                                <a href="https://www.youtube.com/watch?v=lk2Zl5riddw">
+                                    <i style="color:red;" class="fab fa-youtube-square fa-lg" aria-hidden="true">
+                                        <span style="color:black;">Watch the Capita's documentary</span>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </article>
+        </section>
+    </main>
+</body>
+<br><br>
+<footer>
+    <div class="foot">
+        <ul id="foot-list">
+            <li><a href="references.html">References Page</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="https://en.wikipedia.org/wiki/Brazilian_Football_Confederation"><i style="opacity:1;" class="fab fa-wikipedia-w"></i> Brazilian National Team Wikipedia</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="https://www.facebook.com/CBF/"><i style="opacity:1;" class="fab fa-facebook"></i> Brazilian National Team Facebook</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="https://www.instagram.com/cbf_futebol/"><i style="opacity:1;" class="fab fa-instagram"></i> Brazilian National Team Instagram</a></li>
+        </ul>
+        <ul id="foot-list">
+            <li><a href="https://twitter.com/CBF_Futebol?s=20"><i style="opacity:1;" class="fab fa-twitter"></i> Brazilian National Team Twitter</a></li>
+        </ul>
+    </div>
+</footer>
+</html>
