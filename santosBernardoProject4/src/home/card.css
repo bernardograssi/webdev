@@ -1,0 +1,99 @@
+h1[id*='h1-card'] {
+    font-family: "Open Sans", sans-serif;
+    font-size: 13pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+    cursor: default;
+}
+
+h4[id*='h4-card'] {
+    font-family: "Open Sans", sans-serif;
+    font-size: 8pt;
+    font-weight: 400;
+    cursor: default;
+}
+
+h2[id*='h2-card'] {
+    font-family: "Open Sans", sans-serif;
+    font-size: 13pt;
+    font-weight: 300;
+    color: white;
+    cursor: default;
+}
+
+.player-card {
+    height: 190px;
+    width: 430px;
+    background-color: #1E2125;
+    position: absolute;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    margin: 15vh 24vw;
+    box-shadow: 10px 5px 20px #919191, 5px 5px 20px #a1a1a1, 0px 5px 20px #38ebff;
+}
+
+.player-card ul {
+    list-style: none;
+}
+
+.player-card ul li {
+    display: inline-block;
+}
+
+.cover-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.cover-card img {
+    height: 190px;
+    width: 190px;
+}
+
+.info-card h1 {
+    margin-top: 15px;
+    margin-left: 180px;
+    line-height: 0;
+    text-align: center;
+}
+
+.info-card h4 {
+    margin-left: 180px;
+    line-height: 20px;
+    color: #636367;
+    text-align: center;
+}
+
+.info-card h2 {
+    margin-left: 180px;
+}
+
+.button-items-card {
+    margin-left: 180px;
+}
+
+.controls-card {
+    margin-top: 20px;
+}
+
+.controls-card svg:nth-child(2) {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.btn {
+    background-color: #dde9f7;
+    color: #151518;
+}
+
+.btn:hover{
+    background-color: #151518;
+    color: #dde9f7;
+}

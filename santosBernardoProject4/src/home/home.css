@@ -1,0 +1,356 @@
+body {
+    background-color: #dde9f7;
+    margin: 0px 0px 0px 0px;
+    background-image: linear-gradient(315deg, #6b747d 0%, #062036 94%);
+}
+
+.home {
+    width: 99vw;
+    height: 99vh;
+}
+
+#home-header {
+    background: #dde9f7;
+    height: 120px;
+    width: 99vw;
+    border-style: ridge;
+    border-width: 5px;
+    border-color: #3c3e43;
+}
+
+#logo-container {
+    padding-left: 30px;
+    width: 450px;
+    height: 108px;
+    border-width: 5px;
+    border-style: none;
+    border-radius: 50%;
+    overflow: hidden;
+    align-content: center;
+}
+
+#logo-container>img {
+    height: 90%;
+    margin: 5px 5px 5px 5px;
+    width: 90%;
+}
+
+#add-song-container {
+    float: none;
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#profile-info-container {
+    float: none;
+    position: absolute;
+    top: 65px;
+    left: 90%;
+    transform: translate(-50%, -50%);
+}
+
+#profile-pic-container {
+    float: none;
+    position: absolute;
+    top: 65px;
+    left: 75%;
+    transform: translate(-50%, -50%);
+}
+
+#profile-pic-container img {
+    border-radius: 45px;
+}
+
+#logout-btn, #add-song-btn {
+    background-color: #dde9f7;
+    color: #74879e;
+    border-color: #3c3e43;
+    border-width: 3px;
+    box-shadow: 10px 5px 20px #919191, 0px 5px 20px #a1a1a1, -10px 5px 20px #38ebff;
+}
+
+#home-body {
+    background: linear-gradient(315deg, #f2d9f59f 50%, #9dbbc9 70%);
+    position: absolute;
+    border-top: none;
+    border-width: 5px;
+    border-style: ridge;
+    border-color: #3c3e43;
+    overflow: hidden;
+    width: 99vw;
+    height: 75vh;
+    box-shadow: 10px 5px 20px #919191, 5px 5px 20px #a1a1a1, 0px 5px 20px #38ebff;
+}
+
+.float-left {
+    width: 50%;
+    float: left;
+}
+
+#song-list-container {
+    width: 50%;
+    border-style: ridge;
+    border-color: #3c3e43;
+    border-width: 5px;
+    border-left: none;
+    border-bottom: none;
+    border-top: none;
+    text-align: center;
+    position: absolute;
+    padding-top: 50px;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+/*.draggable-song {} */
+
+#play-container {
+    position: absolute;
+    width: 50%;
+    left: 50%;
+}
+
+#play-container>img {
+    height: auto;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+#home-footer
+{
+    background: #dde9f7;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 50px;
+    border-style: ridge;
+    border-width: 5px;
+    border-color: #3c3e43;
+    display: inline-flex;
+    box-shadow: 10px 5px 20px #919191, 5px 5px 20px #a1a1a1, 0px 5px 20px #38ebff;
+    z-index: 0;
+}
+
+/* This allows dropups to expand on click, using a checkbox hack */
+label{
+    box-sizing: border-box;
+    display: inline-block;
+    width: 163.5px;
+    background-color: #dde9f7;
+    padding: 9.5px 20px;
+    border: solid;
+    border-width: 1px;
+    border-color: #062036;
+
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+label .all-users-list-label {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 225px;
+    background-color: #dde9f7;
+    padding: 9.5px 20px;
+    border: solid;
+    border-width: 1px;
+    border-color: #062036;
+
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#all-users-list {
+    position: absolute;
+    width: 150px;
+    height: 0px;
+    padding: 10px 10px;
+    top: 0px;
+    overflow-y: scroll;
+    border-style: solid;
+    border-color: #062036;
+    background-color: #dde9f7;
+    z-index: -1;
+
+    transition: height 0.5s ease-in, top 0.5s ease-in, width 0.5s ease-in;
+}
+
+#friend-song-list-container {
+    position: absolute;
+    right: 163px;
+}
+
+#friend-song-list {
+    position: absolute;
+    width: 163.5px;
+    height: 0px;
+    padding: 10px 10px;
+    top: 0px;
+    overflow-y: scroll;
+    border-style: solid;
+    border-color: #062036;
+    background-color: #dde9f7;
+    z-index: -1;
+    transition: height 0.5s ease-in, top 0.5s ease-in;
+}
+
+#friends-list-container {
+    position: absolute;
+    right: 0px;
+    
+}
+
+#friends-list
+{
+    position: absolute;
+    width: 163.5px;
+    height: 0px;
+    padding: 10px 10px;
+    top: 0px;
+    right: 0px;
+    overflow-y: scroll;
+    border-style: solid;
+    border-color: #062036;
+    background-color: #dde9f7;
+    z-index: -1;
+    transition: height 0.5s ease-in, top 0.5s ease-in, width 0.5s ease-in;
+}
+
+
+
+input[type=checkbox]{
+    display: none;
+}
+
+label:hover {
+    background-image: linear-gradient(180deg, #f2d9f59f 50%, #9dbbc9 70%);
+}
+
+input[type=checkbox]:checked ~ label {
+    background: linear-gradient(180deg, #6b747d 0%, #062036 94%);
+    color: #dde9f7;
+}
+
+input[type=checkbox]:checked ~ #all-users-list {
+    height: 400px;
+    width: 300px;
+    top: -400px;
+}
+
+input[type=checkbox]:checked ~ #friend-song-list {
+    height: 200px;
+    top: -200px;
+}
+
+input[type=checkbox]:checked ~ #friends-list {
+    height: 400px;
+    top: -400px;
+    width: 300px;
+    margin-left: -130px;
+}
+
+/* Dynamic element resizing (transition between wide and narrow view) */
+
+@media screen and (max-width: 1050px) {
+    #home-header {
+        height: 220px;
+        width: 99vw;
+        transition: top 0.4s ease-in-out, transform 0.4s ease-in-out;
+    }
+    #add-song-container {
+        float: none;
+        position: absolute;
+        top: 160px;
+        left: 22%;
+        transform: translate(-50%, -50%);
+        transition: top 0.6s ease-in-out, transform 0.6s ease-in-out;
+    }
+    #profile-info-container {
+        float: none;
+        position: absolute;
+        top: 160px;
+        left: 80%;
+        transform: translate(-50%, -50%);
+        transition: top 0.6s ease-in-out, transform 0.6s ease-in-out;
+    }
+    #profile-pic-container {
+        float: none;
+        position: absolute;
+        top: 160px;
+        left: 52%;
+        transform: translate(-50%, -50%);
+        transition: top 0.6s ease-in-out, transform 0.6s ease-in-out;
+    }
+    #logo-container {
+        padding-left: 30px;
+        position: absolute;
+        left: 5vw;
+        width: 450px;
+        height: 108px;
+        border-width: 5px;
+        border-style: none;
+        border-radius: 50%;
+        overflow: hidden;
+        align-content: center;
+        transition: left 2s ease-in-out, padding-left 1s ease-in-out;
+    }
+    
+}
+
+/* This creates a button dropdown on hover. Source: https://codepen.io/mcbrwr/pen/FxCam */
+
+#logout-btn:hover, #add-song-btn:hover {
+    background-image: linear-gradient(180deg, #f2d9f59f 50%, #9dbbc9 70%);
+	background: linear-gradient(180deg, #f2d9f59f 50%, #9dbbc9 70%);
+}
+
+#profile-arrow {
+    display: inline;
+    position: absolute;
+    transform: scale(1);
+    top: 0px;
+    left: 0;
+    clip-path: circle(0px at center);
+    z-index: 3;
+    transition: clip-path 0.5s ease-in, transform 0.5s ease-in;
+}
+
+#profile-pic-container:hover #profile-arrow {
+    display: inline;
+    transform: scale(1.06);
+    clip-path: circle(150px at center);    
+}
+
+#fileinput {
+    display: none;
+}
+
+#songinput {
+    display: none;
+}
+
+#song-warning{
+    font-size: 18px;
+}
+
+
+
+

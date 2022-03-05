@@ -1,0 +1,38 @@
+.user-div {
+    height: 40px;
+    width: 250px;
+    display: flex;
+    margin-bottom: 10px;
+    background-color: #9dbbc9;
+    border: 1px solid black;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.status-dot {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.username {
+    margin: 5px;
+    font-size: 12px;
+    text-align-last: right;
+    text-overflow: clip;
+    -ms-text-overflow: clip;
+}
+
+.follow-button {
+    margin: 10px;
+    height: 25px;
+    width: 100px;
+    box-shadow: none;
+    color: #74879e;
+    border-color: #3c3e43;
+    border-width: 1px;
+    padding: 0;
+}
+

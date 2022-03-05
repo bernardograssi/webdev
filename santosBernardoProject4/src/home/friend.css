@@ -1,0 +1,31 @@
+.friend-div {
+    height: 45px;
+    width: 255px;
+    margin-bottom: 10px;
+    background-color: #9dbbc9;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+i {
+    display: inline-block;
+    margin: 10px;
+}
+
+.username-friend {
+    display: inline-block;
+    height: 40px;
+}
+
+.username-friend * {
+    padding: -1px;
+    margin: 0px;
+    color: black;
+}
+
+
+
