@@ -1,4 +1,4 @@
-### Project 2
+### Project 3
 
 This project aimed at creating a small-scale social media where users can create accounts and follow each other, while also being able to publish content (with a focus on YouTube embbeded videos) and comment on each other's posts.
 
